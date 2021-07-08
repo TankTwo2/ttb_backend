@@ -1,4 +1,5 @@
 import { Body, Controller, Delete, Get, Post, Put } from '@nestjs/common';
+import { Note } from 'src/entity/note.entity';
 import { NoteService } from './note.service';
 
 @Controller('note')
@@ -6,7 +7,7 @@ export class NoteController {
   constructor(private readonly noteService: NoteService) {}
 
   @Get()
-  getNotes(): string[] {
+  getNotes(): Promise<Note[]> {
     return this.noteService.getNotes();
   }
 

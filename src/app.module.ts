@@ -5,7 +5,6 @@ import { AppService } from './app.service';
 import { NoteController } from './note/note.controller';
 import { NoteService } from './note/note.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import config from '../secret_config.json';
 
 const env = process.env.NODE_ENV;
 
@@ -13,15 +12,15 @@ const env = process.env.NODE_ENV;
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: env === 'dev' ? '.env.dev' : '.env.test',
+      envFilePath: '.env',
       ignoreEnvFile: env === 'prod',
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: '192.168.0.2',
-      port: 3307,
-      username: 'Tanktwo',
-      password: 'wrdnjLRSr6VFJTv!',
+      host: process.env.DATABASE_HOST,
+      port: Number(process.env.DATABASE_PORT),
+      username: process.env.DATABASE_USER,
+      password: process.env.DATABASE_PASSWORD,
       database: env === 'dev' ? 'TTS_DATABASE_DEV' : 'TTS_DATABASE',
       synchronize: true,
       logging: false,

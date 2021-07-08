@@ -1,9 +1,17 @@
 import { Injectable } from '@nestjs/common';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Note } from 'src/entity/note.entity';
 
 @Injectable()
 export class NoteService {
-  getNotes(): string[] {
-    return ['1', '2', '3'];
+  constructor(
+    @InjectRepository(Note)
+    private noteRepository: Repository<Note>,
+  ) {}
+
+  getNotes(): Promise<Note[]> {
+    return this.noteRepository.find();
   }
 
   writeNote(writeData) {
