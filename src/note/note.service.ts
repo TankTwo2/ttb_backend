@@ -14,15 +14,15 @@ export class NoteService {
     return this.noteRepository.find();
   }
 
-  writeNote(writeData) {
-    console.log(writeData);
+  async writeNote(writeData) {
+    await this.noteRepository.save(writeData);
   }
 
-  editNote(editData) {
-    console.log(editData);
+  async editNote(editData) {
+    await this.noteRepository.save(editData);
   }
 
-  delNote(seqId) {
-    console.log(seqId);
+  async delNote(seqId) {
+    await this.noteRepository.remove(seqId);
   }
 }

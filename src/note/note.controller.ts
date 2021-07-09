@@ -8,6 +8,7 @@ export class NoteController {
 
   @Get()
   getNotes(): Promise<Note[]> {
+    console.log('get');
     return this.noteService.getNotes();
   }
 

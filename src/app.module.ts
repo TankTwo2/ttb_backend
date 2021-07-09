@@ -2,14 +2,14 @@ import { ConfigModule } from '@nestjs/config';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { NoteController } from './note/note.controller';
-import { NoteService } from './note/note.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { NoteModule } from './note/ note.module';
 
 const env = process.env.NODE_ENV;
 
 @Module({
   imports: [
+    NoteModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
@@ -24,10 +24,11 @@ const env = process.env.NODE_ENV;
       database: env === 'dev' ? 'TTS_DATABASE_DEV' : 'TTS_DATABASE',
       synchronize: true,
       logging: false,
-      entities: ['entity/**/*.ts'],
+      autoLoadEntities: true,
+      entities: ['entity/**/**{.ts,.js}'],
     }),
   ],
-  controllers: [AppController, NoteController],
-  providers: [AppService, NoteService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
