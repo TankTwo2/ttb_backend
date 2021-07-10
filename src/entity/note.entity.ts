@@ -11,7 +11,7 @@ import { NoteTag } from './note-tag.entity';
 @Entity({ name: 'ttb_note_data' })
 export class Note {
   @PrimaryGeneratedColumn()
-  seq: number;
+  postNumber: number;
 
   @Column()
   title: string;

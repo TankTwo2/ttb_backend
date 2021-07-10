@@ -1,20 +1,29 @@
 import { Body, Controller, Delete, Get, Post, Put } from '@nestjs/common';
 import { Note } from 'src/entity/note.entity';
+import { NoteTagService } from './note-tag.service';
 import { NoteService } from './note.service';
 
 @Controller('note')
 export class NoteController {
-  constructor(private readonly noteService: NoteService) {}
+  constructor(
+    private readonly noteService: NoteService,
+    private readonly noteTagService: NoteTagService,
+  ) {}
 
   @Get()
-  getNotes(): Promise<Note[]> {
-    console.log('get');
+  async getNotes(): Promise<Note[]> {
+    console.log(await this.noteTagService.getNotes());
     return this.noteService.getNotes();
   }
 
   @Post()
-  writeNote(@Body() writeData) {
-    return this.noteService.writeNote(writeData);
+  async writeNote(@Body() writeData) {
+    this.noteService.writeNote(writeData);
+    await writeData.tag.forEach((element) => {
+      this.noteTagService.writeNoteTag({
+        tag: element,
+      });
+    });
   }
 
   @Put()

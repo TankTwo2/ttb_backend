@@ -14,8 +14,8 @@ export class NoteTagService {
     return this.noteTagRepository.find();
   }
 
-  async writeNoteTag(writeData) {
-    await this.noteTagRepository.save(writeData);
+  async writeNoteTag(writeTagData) {
+    await this.noteTagRepository.save(writeTagData);
   }
 
   async editNoteTag(editData) {

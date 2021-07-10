@@ -1,11 +1,14 @@
-import { ManyToOne, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { ManyToOne, Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 import { Note } from './note.entity';
 
 @Entity({ name: 'ttb_note_tag_data' })
 export class NoteTag {
   @PrimaryGeneratedColumn()
-  seq: number;
+  id: string;
 
-  @ManyToOne(() => Note, (note) => note.tag)
+  @Column()
   tag: string;
+
+  @ManyToOne(() => Note, (note) => note.postNumber)
+  seq: Note;
 }
