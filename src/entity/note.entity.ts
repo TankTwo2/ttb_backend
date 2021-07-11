@@ -19,8 +19,8 @@ export class Note {
   @Column()
   content: string;
 
-  @OneToMany(() => NoteTag, (tag) => tag.tag)
-  tag: NoteTag[];
+  @OneToMany(() => NoteTag, (noteTag) => noteTag.seq, { cascade: true })
+  tags: NoteTag[];
 
   @CreateDateColumn()
   createdAt: Date;

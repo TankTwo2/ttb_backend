@@ -15,14 +15,21 @@ export class NoteTagService {
   }
 
   async writeNoteTag(writeTagData) {
-    await this.noteTagRepository.save(writeTagData);
+    writeTagData.tag.forEach((element) =>
+      this.noteTagRepository.save({
+        seq: writeTagData.postNumber,
+        tag: element,
+      }),
+    );
   }
 
-  async editNoteTag(editData) {
-    await this.noteTagRepository.save(editData);
-  }
-
-  async delNoteTag(seqId) {
-    await this.noteTagRepository.remove(seqId);
+  async editNoteTag(editTagData) {
+    // this.noteTagRepository.remove({ seq: editTagData.postNumber });
+    editTagData.tag.forEach((element) =>
+      this.noteTagRepository.save({
+        seq: editTagData.postNumber,
+        tag: element,
+      }),
+    );
   }
 }

@@ -12,27 +12,28 @@ export class NoteController {
 
   @Get()
   async getNotes(): Promise<Note[]> {
-    console.log(await this.noteTagService.getNotes());
     return this.noteService.getNotes();
+  }
+
+  @Get('lastNote')
+  async getLastNote(): Promise<Note> {
+    return this.noteService.getLastNote();
   }
 
   @Post()
   async writeNote(@Body() writeData) {
-    this.noteService.writeNote(writeData);
-    await writeData.tag.forEach((element) => {
-      this.noteTagService.writeNoteTag({
-        tag: element,
-      });
-    });
+    await this.noteService.writeNote(writeData);
+    await this.noteTagService.writeNoteTag(writeData);
   }
 
   @Put()
-  editNote(@Body() editData) {
-    return this.noteService.editNote(editData);
+  async editNote(@Body() editData) {
+    await this.noteService.editNote(editData);
+    await this.noteTagService.editNoteTag(editData);
   }
 
   @Delete()
-  delNote(@Body() seqId) {
-    return this.noteService.delNote(seqId);
+  async delNote(@Body() body) {
+    await this.noteService.delNote(body);
   }
 }
