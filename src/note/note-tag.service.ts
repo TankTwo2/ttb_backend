@@ -24,7 +24,10 @@ export class NoteTagService {
   }
 
   async editNoteTag(editTagData) {
-    // this.noteTagRepository.remove({ seq: editTagData.postNumber });
+    const findData = await this.noteTagRepository.find({
+      seq: editTagData.postNumber,
+    });
+    this.noteTagRepository.remove(findData);
     editTagData.tag.forEach((element) =>
       this.noteTagRepository.save({
         seq: editTagData.postNumber,
