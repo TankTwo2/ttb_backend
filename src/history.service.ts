@@ -1,7 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
-import { History } from './entity/history.entity';
 
 interface HistoryDto {
   method: string;
@@ -18,6 +15,5 @@ export class HistoryService {
 
   writeHistory(historyDto: HistoryDto) {
     console.log(historyDto);
-    // this.historyRepository.save(historyDto);
   }
 }
