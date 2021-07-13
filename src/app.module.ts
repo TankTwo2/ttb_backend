@@ -1,9 +1,10 @@
 import { ConfigModule } from '@nestjs/config';
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { NoteModule } from './note/ note.module';
+import { LoggerMiddleware } from './logger.middleware';
 
 const env = process.env.NODE_ENV;
 
@@ -23,7 +24,8 @@ const env = process.env.NODE_ENV;
       password: process.env.DATABASE_PASSWORD,
       database: env === 'dev' ? 'TTS_DATABASE_DEV' : 'TTS_DATABASE',
       synchronize: true,
-      logging: false,
+      logging: 'all',
+      logger: 'file',
       autoLoadEntities: true,
       entities: ['entity/**/**{.ts,.js}'],
     }),
@@ -31,4 +33,8 @@ const env = process.env.NODE_ENV;
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
+}
