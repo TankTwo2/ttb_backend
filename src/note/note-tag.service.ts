@@ -14,6 +14,14 @@ export class NoteTagService {
     return this.noteTagRepository.find();
   }
 
+  getTagList(): Promise<{ tag: string }[]> {
+    return this.noteTagRepository
+      .createQueryBuilder()
+      .select('tag')
+      .distinct(true)
+      .getRawMany();
+  }
+
   async writeNoteTag(writeTagData) {
     writeTagData.tag.forEach((element) =>
       this.noteTagRepository.save({
