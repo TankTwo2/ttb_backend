@@ -18,7 +18,8 @@ export class NoteTagService {
     return this.noteTagRepository
       .createQueryBuilder()
       .select('tag')
-      .distinct(true)
+      .addSelect('COUNT(tag) as count')
+      .groupBy('tag')
       .getRawMany();
   }
 
