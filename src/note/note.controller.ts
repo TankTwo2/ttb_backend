@@ -22,12 +22,7 @@ export class NoteController {
 
   @Get('tagList')
   async getTagList(): Promise<{ tag: string }[]> {
-    const getData = [];
-
-    (await this.noteTagService.getTagList()).forEach((row) =>
-      getData.push(row.tag),
-    );
-    return getData;
+    return await this.noteTagService.getTagList();
   }
 
   @Post()
