@@ -20,6 +20,11 @@ export class NoteController {
     return this.noteService.getLastNote();
   }
 
+  @Get('tagList')
+  async getTagList(): Promise<{ tag: string }[]> {
+    return await this.noteTagService.getTagList();
+  }
+
   @Post()
   async writeNote(@Body() writeData) {
     await this.noteService.writeNote(writeData);
