@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
 import { Note } from 'src/entity/note.entity';
 import { NoteTagService } from './note-tag.service';
 import { NoteService } from './note.service';
@@ -9,6 +17,11 @@ export class NoteController {
     private readonly noteService: NoteService,
     private readonly noteTagService: NoteTagService,
   ) {}
+
+  @Get('number')
+  async getNote(@Query() query): Promise<Note> {
+    return this.noteService.getNote(query.id);
+  }
 
   @Get()
   async getNotes(): Promise<Note[]> {
@@ -22,7 +35,7 @@ export class NoteController {
 
   @Get('tagList')
   async getTagList(): Promise<{ tag: string }[]> {
-    return await this.noteTagService.getTagList();
+    return this.noteTagService.getTagList();
   }
 
   @Post()
